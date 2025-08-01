@@ -15,10 +15,159 @@ from datetime import datetime
 # Set page config
 st.set_page_config(
     page_title="PBB AI Agent",
-    page_icon="💰",
+    page_icon="🏛️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Custom CSS to match Tyler Technologies styling
+st.markdown("""
+<style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Global styling */
+    .stApp {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+    }
+    
+    /* Header styling */
+    .main-header {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        padding: 3rem 2rem;
+        border-radius: 12px;
+        margin: 1rem 0 2rem 0;
+        text-align: center;
+        color: white;
+        box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+    }
+    
+    .main-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+    
+    .main-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 1rem;
+    }
+    
+    .main-header .subtitle {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        font-weight: 400;
+    }
+    
+    /* Card styling */
+    .analysis-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1.5rem;
+    }
+    
+    .results-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1rem;
+    }
+    
+    /* Section headers */
+    .section-header {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e2e8f0;
+    }
+    
+    /* Sidebar styling */
+    .css-1d391kg {
+        background-color: #f1f5f9;
+    }
+    
+    .css-1d391kg .css-1v0mbdj {
+        color: #475569;
+    }
+    
+    /* Button styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(30, 64, 175, 0.2);
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+    
+    /* Metrics styling */
+    [data-testid="metric-container"] {
+        background: white;
+        border: 1px solid #e2e8f0;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* File uploader styling */
+    .stFileUploader > div {
+        background: white;
+        border: 2px dashed #cbd5e1;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    /* Progress bar styling */
+    .stProgress > div > div {
+        background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%);
+    }
+    
+    /* Info boxes */
+    .stInfo {
+        background-color: #dbeafe;
+        border-left: 4px solid #3b82f6;
+    }
+    
+    .stSuccess {
+        background-color: #dcfce7;
+        border-left: 4px solid #16a34a;
+    }
+    
+    .stWarning {
+        background-color: #fef3c7;
+        border-left: 4px solid #f59e0b;
+    }
+    
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stDeployButton {display:none;}
+    
+    /* Custom spacing */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 class PBBToolkit:
     """Wrapper for all PBB microservices"""
@@ -142,13 +291,18 @@ class PBBToolkit:
             return {"success": False, "error": str(e)}
 
 def main():
-    # Title and description
-    st.title("🏛️ PBB AI Agent")
-    st.markdown("**Transform your government data into actionable budget insights**")
+    # Custom header with Tyler Technologies styling
+    st.markdown("""
+    <div class="main-header">
+        <h1>Performance-Based Budgeting Analytics</h1>
+        <p>Transform your government data into actionable budget insights</p>
+        <div class="subtitle">Powered by AI • Tyler Technologies</div>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Sidebar for configuration
     with st.sidebar:
-        st.header("⚙️ Configuration")
+        st.markdown("### ⚙️ Configuration")
         
         # API endpoint configuration
         render_url = st.text_input(
@@ -169,42 +323,45 @@ def main():
         # Quick start guide
         with st.expander("📖 Quick Start Guide"):
             st.markdown("""
-            1. **Upload your data files** in the main area
-            2. **Choose your analysis** (Full Analysis or Individual Tools)
-            3. **Click 'Analyze'** to process your data
-            4. **Review results** and download reports
+            **Step 1:** Upload your data files  
+            **Step 2:** Choose your analysis type  
+            **Step 3:** Click 'Analyze' to process  
+            **Step 4:** Review results and download reports
             
             **File Requirements:**
-            - Positions: Excel with Department, Division, Position columns
-            - Budgets: Excel with Department, Budget columns
+            - **Positions**: Excel with Department, Division, Position columns
+            - **Budgets**: Excel with Department, Budget columns
             """)
     
     # Initialize toolkit
     toolkit = PBBToolkit(render_url)
     
-    # Main content area
-    col1, col2 = st.columns([2, 1])
+    # Main content area with cards
+    col1, col2 = st.columns([2, 1], gap="large")
     
     with col1:
-        st.header("📊 Data Upload & Analysis")
+        # Data Upload Card
+        st.markdown('<div class="analysis-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">📊 Data Upload & Analysis</div>', unsafe_allow_html=True)
         
         # File upload section
-        st.subheader("1. Upload Your Data")
+        st.markdown("**1. Upload Your Data**")
         
         positions_file = st.file_uploader(
             "Upload Positions & Departments File",
             type=['xlsx'],
-            help="Excel file with columns: Department, Division, Position Name"
+            help="Excel file with columns: Department, Division, Position Name",
+            key="positions"
         )
         
         budget_file = st.file_uploader(
             "Upload Department Budgets File", 
             type=['xlsx'],
-            help="Excel file with columns: Department, Budget"
+            help="Excel file with columns: Department, Budget",
+            key="budgets"
         )
         
-        # Analysis options
-        st.subheader("2. Choose Analysis Type")
+        st.markdown("**2. Choose Analysis Type**")
         
         analysis_type = st.radio(
             "Select analysis type:",
@@ -213,19 +370,25 @@ def main():
         )
         
         if analysis_type == "🚀 Full Analysis (Recommended)":
-            st.info("This will run: Program Inventory → Cost Prediction → Strategic Scoring → Recommendations")
+            st.info("**Workflow:** Program Inventory → Cost Prediction → Strategic Scoring → Recommendations")
             
-            if st.button("🔍 Run Full Analysis", type="primary", disabled=not (positions_file and budget_file)):
-                run_full_analysis(toolkit, positions_file, budget_file)
-                
+            col_btn1, col_btn2 = st.columns([1, 2])
+            with col_btn1:
+                if st.button("🔍 Run Full Analysis", type="primary", disabled=not (positions_file and budget_file)):
+                    run_full_analysis(toolkit, positions_file, budget_file)
+                    
         elif analysis_type == "🔧 Individual Tools":
             show_individual_tools(toolkit, positions_file, budget_file)
             
         elif analysis_type == "💬 Chat with Agent":
             show_chat_interface(toolkit, openai_key)
+            
+        st.markdown('</div>', unsafe_allow_html=True)
     
     with col2:
-        st.header("📈 Results Dashboard")
+        # Results Dashboard Card
+        st.markdown('<div class="results-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">📈 Results Dashboard</div>', unsafe_allow_html=True)
         
         # Display session state results
         if 'analysis_results' in st.session_state:
@@ -233,13 +396,17 @@ def main():
         else:
             st.info("Upload data and run analysis to see results here")
             
-        # Quick stats placeholder
-        st.subheader("📊 Quick Stats")
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Quick stats card
+        st.markdown('<div class="results-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">📊 Quick Stats</div>', unsafe_allow_html=True)
         col_a, col_b = st.columns(2)
         with col_a:
-            st.metric("Programs Analyzed", st.session_state.get('total_programs', 0))
-        with col_b:
+            st.metric("Programs", st.session_state.get('total_programs', 0))
+        with col_b: 
             st.metric("Total Budget", f"${st.session_state.get('total_budget', 0):,.0f}")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 def run_full_analysis(toolkit: PBBToolkit, positions_file, budget_file):
     """Run the complete PBB analysis workflow"""
@@ -399,35 +566,49 @@ def show_results_dashboard():
     
     st.success(f"✅ Analysis completed at {results['timestamp'].strftime('%H:%M:%S')}")
     
-    # Key metrics
-    st.subheader("📊 Key Insights")
+    # Key metrics with Tyler-style cards
+    st.markdown("**Key Insights**")
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Programs Found", results['total_programs'])
+        st.metric(
+            "Programs Found", 
+            results['total_programs'],
+            help="Total programs identified from your data"
+        )
     with col2:
-        st.metric("Total Budget", f"${results['total_budget']:,.0f}")
+        st.metric(
+            "Total Budget", 
+            f"${results['total_budget']:,.0f}",
+            help="Total budget allocated across all programs"
+        )
     with col3:
-        st.metric("Avg Program Cost", f"${results['total_budget'] / max(results['total_programs'], 1):,.0f}")
+        st.metric(
+            "Avg Program Cost", 
+            f"${results['total_budget'] / max(results['total_programs'], 1):,.0f}",
+            help="Average cost per program"
+        )
     
-    # Sample recommendations
-    st.subheader("💡 Key Recommendations")
+    # Recommendations with Tyler styling
+    st.markdown("**💡 Key Recommendations**")
     
     col1, col2 = st.columns(2)
     with col1:
-        st.info(f"🎯 **Optimization Targets**: {results.get('optimization_targets', 12)} programs identified")
-        st.info(f"⚡ **Critical Programs**: {results.get('critical_programs', 5)} high-priority programs")
+        st.info(f"🎯 **Optimization Targets**  \n{results.get('optimization_targets', 12)} programs identified")
+        st.success(f"💰 **Potential Savings**  \n${results.get('potential_savings', 125000):,.0f} identified")
     with col2:
-        st.success(f"💰 **Potential Savings**: ${results.get('potential_savings', 125000):,.0f} identified")
-        st.info("📈 **Next Steps**: Review optimization targets for efficiency gains")
+        st.info(f"⚡ **Critical Programs**  \n{results.get('critical_programs', 5)} high-priority programs")
+        st.info("📈 **Next Steps**  \nReview optimization targets for efficiency gains")
     
-    # Download options
-    st.subheader("📥 Download Reports")
-    col1, col2 = st.columns(2)
+    # Download options with improved styling
+    st.markdown("**📥 Download Reports**")
+    col1, col2, col3 = st.columns(3)
     with col1:
-        st.button("📊 Download Analysis Report", help="Comprehensive PDF report")
+        st.button("📊 Executive Summary", help="PDF executive summary")
     with col2:
-        st.button("📈 Download Excel Dashboard", help="Interactive Excel workbook")
+        st.button("📈 Detailed Analysis", help="Complete Excel workbook")
+    with col3:
+        st.button("💾 Raw Data", help="CSV data export")
 
 if __name__ == "__main__":
     main()
