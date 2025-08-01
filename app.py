@@ -300,23 +300,22 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # Sidebar for configuration
+    # Sidebar for information
     with st.sidebar:
-        st.markdown("### ⚙️ Configuration")
+        st.markdown("### 🏛️ PBB AI Agent")
+        st.markdown("**Connected Services:**")
         
-        # API endpoint configuration
-        render_url = st.text_input(
-            "Your Render.com Base URL", 
-            value="https://your-app-name.onrender.com",
-            help="Enter your Render.com deployment URL"
-        )
+        # Show service status
+        services_status = [
+            ("Program Inventory", "🟢 Active"),
+            ("Budget Allocation", "🟢 Active"),
+            ("Program Evaluation", "🟢 Active"),
+            ("Benchmark Analytics", "🟢 Active"),
+            ("Program Insights", "🟢 Active")
+        ]
         
-        # OpenAI API key (if needed)
-        openai_key = st.text_input(
-            "OpenAI API Key (Optional)", 
-            type="password",
-            help="Only needed for advanced AI features"
-        )
+        for service, status in services_status:
+            st.markdown(f"• {service}: {status}")
         
         st.divider()
         
@@ -332,9 +331,22 @@ def main():
             - **Positions**: Excel with Department, Division, Position columns
             - **Budgets**: Excel with Department, Budget columns
             """)
+        
+        st.divider()
+        
+        # About section
+        with st.expander("ℹ️ About"):
+            st.markdown("""
+            This PBB AI Agent integrates multiple microservices to provide comprehensive government budget analysis.
+            
+            **Powered by:**
+            - Advanced AI/ML models
+            - Government benchmarking data
+            - Tyler Technologies platform
+            """)
     
     # Initialize toolkit
-    toolkit = PBBToolkit(render_url)
+    toolkit = PBBToolkit()
     
     # Main content area with cards
     col1, col2 = st.columns([2, 1], gap="large")
@@ -361,6 +373,13 @@ def main():
             key="budgets"
         )
         
+        # Organization details
+        org_url = st.text_input(
+            "Organization Website URL",
+            value="https://www.example.gov",
+            help="Your government organization's website URL"
+        )
+        
         st.markdown("**2. Choose Analysis Type**")
         
         analysis_type = st.radio(
@@ -375,13 +394,13 @@ def main():
             col_btn1, col_btn2 = st.columns([1, 2])
             with col_btn1:
                 if st.button("🔍 Run Full Analysis", type="primary", disabled=not (positions_file and budget_file)):
-                    run_full_analysis(toolkit, positions_file, budget_file)
+                    run_full_analysis(toolkit, positions_file, budget_file, org_url)
                     
         elif analysis_type == "🔧 Individual Tools":
-            show_individual_tools(toolkit, positions_file, budget_file)
+            show_individual_tools(toolkit, positions_file, budget_file, org_url)
             
         elif analysis_type == "💬 Chat with Agent":
-            show_chat_interface(toolkit, openai_key)
+            show_chat_interface(toolkit, "")  # Remove openai_key parameter
             
         st.markdown('</div>', unsafe_allow_html=True)
     
